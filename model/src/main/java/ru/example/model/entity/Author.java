@@ -1,6 +1,6 @@
 package ru.example.model.entity;
 
-public class Author {
+public class Author implements Persistent {
     private Long id;
     private String firstName;
     private String lastName;

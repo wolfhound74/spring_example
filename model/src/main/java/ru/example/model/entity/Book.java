@@ -2,7 +2,7 @@ package ru.example.model.entity;
 
 import java.util.List;
 
-public class Book {
+public class Book implements Persistent {
     private Long id;
     private String title;
     private List<Author> authors;
