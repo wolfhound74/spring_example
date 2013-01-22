@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="exceptionTranslationInterceptor"
+          class="org.springframework.dao.support.PersistenceExceptionTranslationInterceptor"/>
+
+    <aop:config>
+        <!--TODO-->
+        <!--<aop:advisor advice-ref="exceptionTranslationInterceptor" pointcut="execution(*)"/>-->
+    </aop:config>
+
+    <bean id="abstractHibernateDao" class="ru.example.model.dao.hibernate.AbstractHibernateDao" abstract="true">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="authorHibernateDao" class="ru.example.model.dao.hibernate.AuthorHibernateDao"
+          parent="abstractHibernateDao"/>
+    <bean id="bookHibernateDao" class="ru.example.model.dao.hibernate.BookHibernateDao" parent="abstractHibernateDao"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -13,7 +31,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:/ru/example/model/datasources.properties"/>
     </bean>
-    
+
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mappingResources">
@@ -25,7 +43,8 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
-                <prop key="hibernate.query.factory_class">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</prop>
+                <prop key="hibernate.query.factory_class">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory
+                </prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl}</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
@@ -38,8 +57,6 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    
-
 
 
 </beans>
