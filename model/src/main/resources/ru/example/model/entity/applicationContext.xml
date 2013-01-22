@@ -9,8 +9,7 @@
           class="org.springframework.dao.support.PersistenceExceptionTranslationInterceptor"/>
 
     <aop:config>
-        <!--TODO-->
-        <!--<aop:advisor advice-ref="exceptionTranslationInterceptor" pointcut="execution(*)"/>-->
+        <aop:advisor advice-ref="exceptionTranslationInterceptor" pointcut="execution(public * ru.example.model.dao.Dao+.*(*))"/>
     </aop:config>
 
     <bean id="abstractHibernateDao" class="ru.example.model.dao.hibernate.AbstractHibernateDao" abstract="true">
