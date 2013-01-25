@@ -1,9 +1,7 @@
 package ru.example.model.dao.hibernate;
 
 import org.hibernate.Query;
-import ru.example.model.dao.Dao;
 import ru.example.model.entity.Book;
-import ru.example.model.entity.Persistent;
 
 import java.util.List;
 
@@ -16,13 +14,14 @@ public class BookHibernateDao extends AbstractHibernateDao<Book> {
 
     @Override
     public void delete(Long id) {
-Query query = getSession().createQuery("from Book where id = :id");
+        Query query = getSession().createQuery("from Book where id = :id");
         query.setLong("id", id);
+        query.executeUpdate();
     }
 
     @Override
     public void delete(Book persistent) {
-        getSession().save(persistent);
+        getSession().delete(persistent);
     }
 
     @Override
