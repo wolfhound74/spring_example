@@ -4,6 +4,7 @@
     <title></title>
 </head>
 <body>
-
+      <p>${firstName}</p>
+      <p>${lastName}</p>
 </body>
 </html>
